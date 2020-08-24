@@ -1,2 +1,135 @@
-- hosts:
+- hosts: all
+  tasks:
+    - name: Update cache
+      become: true
+      yum:
+        update_cache: true
 
+    # - name: Install epel
+    #   become: true
+    #   yum:
+    #     name: epel-release
+    #     state: present
+    #     update_cache: true
+    
+    # - name: Install Development tools
+    #   become: true
+    #   yum:
+    #     name: "@Development Tools"
+    #     state: present
+
+    - name: Installing several tools
+      become: true
+      yum:
+        name: "{{ item }}"
+        state: present
+      loop:
+    #     - xrdp
+    #     - xorgxrdp
+    #     - xorg-x11-server-Xorg
+    #     - xorg-x11-xinit
+    #     - xorg-x11-xinit-session
+    #     - vim
+    #     - libX11-devel
+    #     - libXft-devel
+    #     - libXinerama-devel
+    #     - xorg-x11-utils
+    #     - xorg-x11-fonts-*
+    #     - "@fonts"
+          - yad
+    
+    # - name: Start and enable xrdp
+    #   become: true
+    #   systemd:
+    #     name: "{{ item }}"
+    #     enabled: true
+    #     state: started
+    #   loop:
+    #     - xrdp
+    #     - xrdp-sesman
+
+    # - name: Changing xrdp config
+    #   become: true
+    #   copy:
+    #     src: files/xrdp.ini
+    #     dest: /etc/xrdp/xrdp.ini
+    #     owner: root
+    #     group: root
+    #     mode: 0644
+
+    # - name: Changing sesman config
+    #   become: true
+    #   copy:
+    #     src: files/sesman.ini
+    #     dest: /etc/xrdp/sesman.ini
+    #     owner: root
+    #     group: root
+    #     mode: 0644
+
+    - name: Cloning dwm
+      git:
+        dest: ~/.local/src/dwm
+        repo: https://github.com/joscherrer/dwm.git
+
+    - name: Build dwm
+      make:
+        chdir: ~/.local/src/dwm
+        target: install
+        params:
+          PREFIX: ~/.local
+
+    - name: Clean dwm
+      make:
+        chdir: ~/.local/src/dwm
+        target: clean
+        params:
+          PREFIX: ~/.local
+
+    # - name: Cloning st
+    #   git:
+    #     dest: ~/.local/src/st
+    #     repo: https://github.com/joscherrer/st.git
+
+    # - name: Build st
+    #   make:
+    #     chdir: ~/.local/src/st
+    #     target: install
+    #     params:
+    #       CFLAGS: -std=c99
+    #       PREFIX: ~/.local
+
+    # - name: Clean st
+    #   make:
+    #     chdir: ~/.local/src/st
+    #     target: clean
+    #     params:
+    #       CFLAGS: -std=c99
+    #       PREFIX: ~/.local
+
+    # - name: Install yadm
+    #   get_url:
+    #     url: https://github.com/TheLocehiliosan/yadm/raw/master/yadm
+    #     dest: ~/.local/bin/yadm
+    #     mode: 0755
+
+    # - name: Clone yadm
+    #   command: ~/.local/bin/yadm clone https://joscherrer:{{ yadm_password }}@github.com/joscherrer/dotfiles.git
+    #   args:
+    #     chdir: ~
+    #     creates: ~/.config/yadm
+
+    # - name: Clone Powerline fonts
+    #   git:
+    #     dest: ~/fonts
+    #     repo: https://github.com/powerline/fonts.git
+    #     depth: 1
+
+    # - name: Clone Menlo for Powerline
+    #   git:
+    #     dest: ~/fonts/Menlo-for-Powerline
+    #     repo: https://github.com/abertsch/Menlo-for-Powerline.git
+
+    # - name: Install fonts
+    #   command: ./install.sh
+    #   args:
+    #     chdir: ~/fonts

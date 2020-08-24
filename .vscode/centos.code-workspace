@@ -1,0 +1,11 @@
+{
+	"folders": [
+		{
+			"path": ".."
+		}
+	],
+	"settings": {
+		"ansible.customOptions": "-i hosts.yml -u jscherrerl",
+		"ansible.credentialsConfigured": true
+	}
+}
