@@ -15,9 +15,9 @@
 
 ### vim-plug
 
-```
-sh -c 'curl -fLo "${$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
-       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+```shell
+sh -c 'curl -fLo "${$HOME/.local/share}"/nvim/site/autoload/plug.vim \
+    --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 mkdir -p ~/.local/share/nvim/plugged/
 ```
 

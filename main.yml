@@ -1,9 +1,9 @@
 - hosts: all
   tasks:
-    - name: Update cache
-      become: true
-      yum:
-        update_cache: true
+    # - name: Update cache
+    #   become: true
+    #   yum:
+    #     update_cache: true
 
     # - name: Install epel
     #   become: true
@@ -18,12 +18,12 @@
     #     name: "@Development Tools"
     #     state: present
 
-    - name: Installing several tools
-      become: true
-      yum:
-        name: "{{ item }}"
-        state: present
-      loop:
+    # - name: Installing several tools
+    #   become: true
+    #   yum:
+    #     name: "{{ item }}"
+    #     state: present
+    #   loop:
     #     - xrdp
     #     - xorgxrdp
     #     - xorg-x11-server-Xorg
@@ -36,7 +36,11 @@
     #     - xorg-x11-utils
     #     - xorg-x11-fonts-*
     #     - "@fonts"
-          - yad
+    #     - yad
+    #     - ncurses
+    #     - ncurses-devel
+    #     - asciidoc
+    #     - xmlto
     
     # - name: Start and enable xrdp
     #   become: true
@@ -66,24 +70,24 @@
     #     group: root
     #     mode: 0644
 
-    - name: Cloning dwm
-      git:
-        dest: ~/.local/src/dwm
-        repo: https://github.com/joscherrer/dwm.git
+    # - name: Cloning dwm
+    #   git:
+    #     dest: ~/.local/src/dwm
+    #     repo: https://github.com/joscherrer/dwm.git
 
-    - name: Build dwm
-      make:
-        chdir: ~/.local/src/dwm
-        target: install
-        params:
-          PREFIX: ~/.local
+    # - name: Build dwm
+    #   make:
+    #     chdir: ~/.local/src/dwm
+    #     target: install
+    #     params:
+    #       PREFIX: ~/.local
 
-    - name: Clean dwm
-      make:
-        chdir: ~/.local/src/dwm
-        target: clean
-        params:
-          PREFIX: ~/.local
+    # - name: Clean dwm
+    #   make:
+    #     chdir: ~/.local/src/dwm
+    #     target: clean
+    #     params:
+    #       PREFIX: ~/.local
 
     # - name: Cloning st
     #   git:
@@ -103,7 +107,45 @@
     #     chdir: ~/.local/src/st
     #     target: clean
     #     params:
+    #       PREFIX: ~/.local
+
+    # - name: Cloning dmenu
+    #   git:
+    #     dest: ~/.local/src/dmenu
+    #     repo: https://github.com/joscherrer/dmenu.git
+
+    # - name: Build dmenu
+    #   make:
+    #     chdir: ~/.local/src/dmenu
+    #     target: install
+    #     params:
+    #       PREFIX: ~/.local
+
+    # - name: Clean dmenu
+    #   make:
+    #     chdir: ~/.local/src/dmenu
+    #     target: clean
+    #     params:
+    #       PREFIX: ~/.local
+
+    # - name: Cloning dwmblocks
+    #   git:
+    #     dest: ~/.local/src/dwmblocks
+    #     repo: https://github.com/joscherrer/dwmblocks.git
+
+    # - name: Build dwmblocks
+    #   make:
+    #     chdir: ~/.local/src/dwmblocks
+    #     target: install
+    #     params:
     #       CFLAGS: -std=c99
+    #       PREFIX: ~/.local
+
+    # - name: Clean dwmblocks
+    #   make:
+    #     chdir: ~/.local/src/dwmblocks
+    #     target: clean
+    #     params:
     #       PREFIX: ~/.local
 
     # - name: Install yadm
@@ -116,7 +158,20 @@
     #   command: ~/.local/bin/yadm clone https://joscherrer:{{ yadm_password }}@github.com/joscherrer/dotfiles.git
     #   args:
     #     chdir: ~
-    #     creates: ~/.config/yadm
+    #     creates: ~/.config/yadm/repo.git
+
+    # - name: Remove password from url
+    #   command: perl -pi -e 's/(\/.*?):(.*?)@/\1@/' .config/yadm/repo.git/config
+
+    # - name: Set yadm EI
+    #   command: ~/.local/bin/yadm config local.class EI
+    #   args:
+    #     chdir: ~
+
+    # - name: yadm alt
+    #   command: ~/.local/bin/yadm alt
+    #   args:
+    #     chdir: ~
 
     # - name: Clone Powerline fonts
     #   git:
@@ -133,3 +188,100 @@
     #   command: ./install.sh
     #   args:
     #     chdir: ~/fonts
+
+    # - name: Downloading zsh
+    #   uri:
+    #     url: https://sourceforge.net/projects/zsh/files/zsh/5.8/zsh-5.8.tar.xz
+    #     dest: "/tmp/zsh-5.8.tar.xz"
+    #     follow_redirects: all
+    #     status_code: [200, 304]
+    #   register: dl_zsh
+
+    # - name: Extracting zsh archive
+    #   unarchive:
+    #     src: "/tmp/zsh-5.8.tar.xz"
+    #     dest: ~/.local/src/
+    #     remote_src: true
+
+    # - name: Configuring zsh
+    #   command: ./configure --prefix=$HOME/.local
+    #   changed_when: false
+    #   args:
+    #     chdir: "~/.local/src/zsh-5.8"
+    #   register: configure
+
+    # - name: Making zsh
+    #   make:
+    #     chdir: "~/.local/src/zsh-5.8"
+
+    # - name: Installing zsh
+    #   make:
+    #     target: install
+    #     chdir: "~/.local/src/zsh-5.8"
+
+    # - name: Installing antibody
+    #   shell: curl -sfL git.io/antibody | sh -s - -b ~/.local/bin
+    #   args:
+    #     warn: false
+
+    # - name: Downloading git
+    #   uri:
+    #     url: https://github.com/git/git/archive/v2.28.0.tar.gz
+    #     dest: "/tmp/git-v2.28.0.tar.gz"
+    #     follow_redirects: all
+    #     status_code: [200, 304]
+
+    # - name: Extracting git
+    #   unarchive:
+    #     src: "/tmp/git-v2.28.0.tar.gz"
+    #     dest: ~/.local/src/
+    #     remote_src: true
+
+    # - name: Make configure
+    #   make:
+    #     target: configure
+    #     chdir: "~/.local/src/git-2.28.0"
+
+    # - name: Configuring git
+    #   command: ./configure --prefix=$HOME/.local
+    #   changed_when: false
+    #   args:
+    #     chdir: "~/.local/src/git-2.28.0"
+
+    # - name: Making git
+    #   make:
+    #     target: "{{ item }}"
+    #     chdir: "~/.local/src/git-2.28.0"
+    #   loop: [ all, doc ]
+
+    # - name: Installing git
+    #   make:
+    #     target: "{{ item }}"
+    #     chdir: "~/.local/src/git-2.28.0"
+    #   loop: [ install, install-doc, install-html ]
+
+    - name: Downloading neovim
+      uri:
+        url: https://github.com/neovim/neovim/releases/download/v0.4.4/nvim-linux64.tar.gz
+        dest: "/tmp/nvim-v0.4.4.tar.gz"
+        follow_redirects: all
+        status_code: [200, 304]
+
+    - name: Extracting neovim
+      unarchive:
+        src: "/tmp/nvim-v0.4.4.tar.gz"
+        dest: ~/.local/
+        remote_src: true
+        extra_opts:
+        - --strip-components=1
+
+    - name: Install vim-plug
+      shell: |
+        sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
+                https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+
+    - name: Install nodejs
+      shell:
+        curl -sL install-node.now.sh/lts | sh -s -- --prefix=$HOME -y
+      args:
+        warn: false
