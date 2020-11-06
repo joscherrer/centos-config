@@ -1,5 +1,15 @@
 # centos-config
 
+## Applications
+
+### Light
+
+- nvim
+- vim-plug
+- zsh
+- antibody (local)
+- yadm (local)
+
 ## Packages
 
 - 'Development Tools'
@@ -20,4 +30,3 @@ sh -c 'curl -fLo "${$HOME/.local/share}"/nvim/site/autoload/plug.vim \
     --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 mkdir -p ~/.local/share/nvim/plugged/
 ```
-
